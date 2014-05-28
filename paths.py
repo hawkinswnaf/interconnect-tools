@@ -1,7 +1,5 @@
 #!/usr/bin/python
-
-#f = open('pt-april-comcast.txt', 'r')
-f = open('path-sea-1-output.txt', 'r')
+import argparse
 
 def hops_to_routenodes(hops):
 	node = RouteNode(hops[0])
@@ -80,13 +78,20 @@ def route_append(existing, new):
 	#
 	return False
 
+parser = argparse.ArgumentParser(description="Generate paths.")
+parser.add_argument('file', help='input file.')
+parser.add_argument('--depth', help='path depth to print.', default=1, type=int)
+
+args = parser.parse_args()
+
+f = open(args.file, 'r')
+depth = args.depth
 routes = []
 for line in f:
 	line = line.strip()
 	components = line.split(",")
 	hops = components[2].split("#")
 	#hops = line.split("#")
-	print("length of hops: " + str(len(hops)))
 	hops.reverse()
 	rn = hops_to_routenodes(hops)
 	match = False
@@ -96,4 +101,4 @@ for line in f:
 	if match == False:
 		routes.append(rn)
 for i in routes:
-	print_routenode(i,4)
+	print_routenode(i,depth)
