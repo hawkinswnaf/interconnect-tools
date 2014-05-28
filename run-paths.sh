@@ -1,6 +1,11 @@
 #!/bin/bash
 months='01 04'
 sites='lax01-38.98 dfw01-38.107 sea01-38.102'
+
+if [ ! -d output ]; then
+	mkdir output
+fi
+
 for siteconfig in $sites; do
 	site=${siteconfig%%-*}
 	ip=${siteconfig##*-}
